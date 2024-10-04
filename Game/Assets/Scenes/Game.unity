@@ -2652,11 +2652,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 6312512169844449219, guid: 793d37ab250f6924e82bd79f4135e66f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -13.46
+      value: -18.007
       objectReference: {fileID: 0}
     - target: {fileID: 6312512169844449219, guid: 793d37ab250f6924e82bd79f4135e66f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.47
+      value: 1.49
       objectReference: {fileID: 0}
     - target: {fileID: 6312512169844449219, guid: 793d37ab250f6924e82bd79f4135e66f, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2704,6 +2704,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 6688229120525518201, guid: 793d37ab250f6924e82bd79f4135e66f, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1636307831}
+    - targetCorrespondingSourceObject: {fileID: 6688229120525518201, guid: 793d37ab250f6924e82bd79f4135e66f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1636307834}
   m_SourcePrefab: {fileID: 100100000, guid: 793d37ab250f6924e82bd79f4135e66f, type: 3}
 --- !u!1 &1636307827 stripped
 GameObject:
@@ -2724,7 +2727,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 1737894663}
   followRadius: 10
-  speed: 2
+  speed: 2.5
+  rotationSpeed: 5
 --- !u!54 &1636307831
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2748,10 +2752,33 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 1
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 4
+  m_Constraints: 80
   m_CollisionDetection: 0
+--- !u!136 &1636307834
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1636307827}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.4
+  m_Height: 1.8
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.78, z: -0.2}
 --- !u!1001 &1647951832
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3223,6 +3250,7 @@ MonoBehaviour:
   player: {fileID: 1737894663}
   followRadius: 10
   speed: 3
+  rotationSpeed: 5
 --- !u!1001 &2019881953
 PrefabInstance:
   m_ObjectHideFlags: 0
