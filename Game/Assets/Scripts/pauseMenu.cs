@@ -2,11 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityStandardAssets.Characters.FirstPerson;
 
 public class pauseMenu : MonoBehaviour
 {
     public static bool Paused = false;
     public GameObject PauseMenuCanvas;
+    public GameObject player;
 
     void Start()
     {
@@ -32,6 +34,7 @@ public class pauseMenu : MonoBehaviour
     {
         PauseMenuCanvas.SetActive(true); 
         Time.timeScale = 0f;
+        player.GetComponent<FirstPersonController>().enabled = false;
         Paused = true;
     }
 
@@ -39,6 +42,7 @@ public class pauseMenu : MonoBehaviour
     {
         PauseMenuCanvas.SetActive(false);
         Time.timeScale = 1f;
+       player.GetComponent<FirstPersonController>().enabled = true;
         Paused = false;
     }
 
