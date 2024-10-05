@@ -70,10 +70,12 @@ namespace UnityStandardAssets.Characters.FirstPerson
                 m_Jump = Input.GetButtonDown("Jump");
             }
 
+            //***********************************************************************
+
             //Stamina/Sprint Duration
             if (!m_IsWalking)
             {
-                if (SprintDuration > 0)
+                if (SprintDuration > 0 && ((Input.GetKey(KeyCode.W)) || (Input.GetKey(KeyCode.A)) || (Input.GetKey(KeyCode.S)) || (Input.GetKey(KeyCode.D))))
                 {
                     SprintDuration--;
                 }
@@ -82,16 +84,18 @@ namespace UnityStandardAssets.Characters.FirstPerson
             //Stamina/Sprint Cooldown
             if (SprintDuration == 0)
             {
-                if (SprintCooldown < 1500)
+                if (SprintCooldown < 800)
                 {
                     SprintCooldown++;
                 }
             }
-            if (SprintCooldown == 1500)
+            if (SprintCooldown == 800)
             {
                 SprintDuration = 1500;
                 SprintCooldown = 0;
             }
+
+            //*************************************************************************
 
             if (m_IsSneaking)
             {
