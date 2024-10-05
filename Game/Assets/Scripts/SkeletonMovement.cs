@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GoblinMovement : MonoBehaviour
 
-   {
+public class SkeletonMovement : MonoBehaviour
+ {
     public Transform player;       // The player's transform
     public float followRadius = 10f; // Radius within which the enemy will follow the player
     public float speed = 3f;       // Movement speed of the enemy
