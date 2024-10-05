@@ -35,6 +35,8 @@ public class pauseMenu : MonoBehaviour
         PauseMenuCanvas.SetActive(true); 
         Time.timeScale = 0f;
         player.GetComponent<FirstPersonController>().enabled = false;
+        Cursor.lockState = CursorLockMode.None;
+    Cursor.visible = true;
         Paused = true;
     }
 
