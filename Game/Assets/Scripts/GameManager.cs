@@ -15,20 +15,30 @@ public class GameManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
-            DontDestroyOnLoad(gameObject);
+            DontDestroyOnLoad(gameOverUI);
         }
         else
         {
-            Destroy(gameObject);
+            Destroy(gameOverUI);
         }
     }
     private void Start() {
-         player = GameObject.FindGameObjectWithTag("Player");
+         // Find and assign the player object by tag
+        if (player == null)
+        {
+            player = GameObject.FindGameObjectWithTag("Player");
+            if (player == null)
+            {
+                Debug.LogWarning("Player not found in the scene. Ensure the Player has the 'Player' tag.");
+            }
+        }
+         
     }
 
     public void GameOver()
     {
         // Show the Game Over screen and pause the game
+        Debug.Log("Game over");
          player.GetComponent<FirstPersonController>().enabled = false;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
@@ -39,16 +49,29 @@ public class GameManager : MonoBehaviour
     public void RestartLevel()
     {
         // Restart the current level
-         
+         Debug.Log("Restart");
         Time.timeScale = 1f;  // Resume time
         gameOverUI.SetActive(false);
-        player.GetComponent<FirstPersonController>().enabled = true;
+        //player.GetComponent<FirstPersonController>().enabled = true;
           player = GameObject.FindGameObjectWithTag("Player");
-          if (FirstPersonController.instance != null)
-    {
-        // Set this to your starting position
-        FirstPersonController.instance.transform.position = new Vector3(-5, 1, 5); // Example starting position
-    }
+
+            if (player != null)
+        {
+            var firstPersonController = player.GetComponent<FirstPersonController>();
+            if (firstPersonController != null)
+            {
+                firstPersonController.enabled = true; // Enable player control
+            }
+
+            // Reset player position (if needed)
+            firstPersonController.transform.position = new Vector3(-5, 1, 5); // Example starting position
+        }
+        else
+        {
+            Debug.LogError("Player reference is null when restarting the level.");
+        }
+
+    
         SceneManager.LoadScene("Game");  // Reload current scene
     }
 
@@ -56,11 +79,13 @@ public class GameManager : MonoBehaviour
     {
         // Return to the main menu
         Time.timeScale = 1f;  // Resume time
+        gameOverUI.SetActive(false);
         SceneManager.LoadScene("MainMenu");  // Load Main Menu scene
+
         // If you want to deactivate or reset player state
-    if (FirstPersonController.instance != null)
-    {
-        FirstPersonController.instance.gameObject.SetActive(false); // Deactivate player
-    }
+       if (player != null)
+        {
+            player.SetActive(false); // Deactivate player
+        }
     }
 }

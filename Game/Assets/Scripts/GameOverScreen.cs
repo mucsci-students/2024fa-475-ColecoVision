@@ -16,7 +16,7 @@ public class GameOverScreen : MonoBehaviour
         pointsText.text = score.ToString() + "POINTS";
     }
     public void Start() {
-        Time.timeScale = 0f;
+        //Time.timeScale = 0f;
        //player.GetComponent<FirstPersonController>().enabled = false;
        // Cursor.lockState = CursorLockMode.None;
    // Cursor.visible = true;
