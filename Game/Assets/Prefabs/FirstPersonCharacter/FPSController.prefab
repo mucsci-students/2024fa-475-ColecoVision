@@ -80,6 +80,8 @@ MonoBehaviour:
   m_RunSpeed: 10
   m_SneakSpeed: 0
   m_ogRunSpeed: 0
+  SprintDuration: 0
+  SprintCooldown: 0
   m_RunstepLenghten: 0.7
   m_JumpSpeed: 10
   m_StickToGroundForce: 10
