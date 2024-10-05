@@ -17,6 +17,8 @@ namespace UnityStandardAssets.Characters.FirstPerson
         [SerializeField] private float m_RunSpeed;
         [SerializeField] private float m_SneakSpeed;
         [SerializeField] private float m_ogRunSpeed;
+        [SerializeField] private float SprintDuration;
+        [SerializeField] private float SprintCooldown;
         [SerializeField] [Range(0f, 1f)] private float m_RunstepLenghten;
         [SerializeField] private float m_JumpSpeed;
         [SerializeField] private float m_StickToGroundForce;
@@ -68,6 +70,8 @@ namespace UnityStandardAssets.Characters.FirstPerson
 			m_MouseLook.Init(transform , m_Camera.transform);
             m_SneakSpeed = m_WalkSpeed;
             m_ogRunSpeed = m_RunSpeed;
+            SprintDuration = 1500;
+            SprintCooldown = 0;
         }
 
 
@@ -80,6 +84,33 @@ namespace UnityStandardAssets.Characters.FirstPerson
             {
                 m_Jump = Input.GetButtonDown("Jump");
             }
+
+            //***********************************************************************
+
+            //Stamina/Sprint Duration
+            if (!m_IsWalking)
+            {
+                if (SprintDuration > 0 && ((Input.GetKey(KeyCode.W)) || (Input.GetKey(KeyCode.A)) || (Input.GetKey(KeyCode.S)) || (Input.GetKey(KeyCode.D))))
+                {
+                    SprintDuration--;
+                }
+            }
+
+            //Stamina/Sprint Cooldown
+            if (SprintDuration == 0)
+            {
+                if (SprintCooldown < 800)
+                {
+                    SprintCooldown++;
+                }
+            }
+            if (SprintCooldown == 800)
+            {
+                SprintDuration = 1500;
+                SprintCooldown = 0;
+            }
+
+            //*************************************************************************
 
             if (m_IsSneaking)
             {
@@ -217,6 +248,18 @@ namespace UnityStandardAssets.Characters.FirstPerson
             // set the desired speed to be walking or running
             speed = m_IsWalking ? m_WalkSpeed : m_RunSpeed;
             m_Input = new Vector2(horizontal, vertical);
+
+            //Player should not be sprinting if they are out of stamina.
+            if (SprintDuration == 0)
+            {
+                speed = m_WalkSpeed;
+                m_IsWalking = true;
+            }
+
+            if (SprintDuration > 0)
+            {
+                speed = m_IsWalking ? m_WalkSpeed : m_RunSpeed;
+            }
 
             // normalize input if it exceeds 1 in combined length:
             if (m_Input.sqrMagnitude > 1)
