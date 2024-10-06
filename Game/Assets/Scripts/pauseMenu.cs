@@ -8,6 +8,7 @@ public class pauseMenu : MonoBehaviour
 {
     public static bool Paused = false;
     public GameObject PauseMenuCanvas;
+    public GameObject controlsCanvas;
     public GameObject player;
 
     void Start()
@@ -46,6 +47,14 @@ public class pauseMenu : MonoBehaviour
         Time.timeScale = 1f;
        player.GetComponent<FirstPersonController>().enabled = true;
         Paused = false;
+    }
+    public void PauseMenu() {
+        controlsCanvas.SetActive(false);
+        PauseMenuCanvas.SetActive(true);
+    }
+    public void controls() {
+        PauseMenuCanvas.SetActive(false);
+        controlsCanvas.SetActive(true);
     }
 
     public void MainMenuButton()
