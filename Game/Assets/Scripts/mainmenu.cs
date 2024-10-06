@@ -6,6 +6,8 @@ using UnityStandardAssets.Characters.FirstPerson;
 
 public class NewBehaviourScript : MonoBehaviour
 {
+    public GameObject mainMenu;
+    public GameObject controlsMenu;
     public GameObject player;
     void Start() {
          
@@ -17,6 +19,17 @@ public class NewBehaviourScript : MonoBehaviour
     {
         player.GetComponent<FirstPersonController>().enabled = true;
         SceneManager.LoadScene("Game");
+    }
+    public void controls() {
+        mainMenu.SetActive(false);
+        
+        controlsMenu.SetActive(true);
+
+    }
+    public void MainMenu() {
+        controlsMenu.SetActive(false);
+        mainMenu.SetActive(true);
+
     }
 
     public void quit()
