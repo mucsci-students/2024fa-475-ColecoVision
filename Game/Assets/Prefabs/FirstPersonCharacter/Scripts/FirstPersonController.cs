@@ -3,6 +3,7 @@ using UnityEngine;
 //using UnityStandardAssets.CrossPlatformInput;
 //using UnityStandardAssets.Utility;
 using Random = UnityEngine.Random;
+using UnityEngine.SceneManagement;
 
 namespace UnityStandardAssets.Characters.FirstPerson
 {
@@ -41,6 +42,20 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private float m_NextStep;
         private bool m_Jumping;
         private AudioSource m_AudioSource;
+        public static FirstPersonController instance; // Singleton instance
+
+        private void Awake()
+        {
+            // Singleton pattern to ensure only one instance of the FirstPersonController exists
+            if (instance == null)
+            {
+                instance = this;
+            }
+            else
+            {
+                Destroy(gameObject); // Destroy any duplicate
+            }
+        }
 
         // Use this for initialization
         private void Start()
@@ -70,10 +85,12 @@ namespace UnityStandardAssets.Characters.FirstPerson
                 m_Jump = Input.GetButtonDown("Jump");
             }
 
+            //***********************************************************************
+
             //Stamina/Sprint Duration
             if (!m_IsWalking)
             {
-                if (SprintDuration > 0)
+                if (SprintDuration > 0 && ((Input.GetKey(KeyCode.W)) || (Input.GetKey(KeyCode.A)) || (Input.GetKey(KeyCode.S)) || (Input.GetKey(KeyCode.D)) || (Input.GetKey(KeyCode.UpArrow)) || (Input.GetKey(KeyCode.DownArrow)) || (Input.GetKey(KeyCode.LeftArrow)) || (Input.GetKey(KeyCode.RightArrow))))
                 {
                     SprintDuration--;
                 }
@@ -82,16 +99,18 @@ namespace UnityStandardAssets.Characters.FirstPerson
             //Stamina/Sprint Cooldown
             if (SprintDuration == 0)
             {
-                if (SprintCooldown < 1500)
+                if (SprintCooldown < 800)
                 {
                     SprintCooldown++;
                 }
             }
-            if (SprintCooldown == 1500)
+            if (SprintCooldown == 800)
             {
                 SprintDuration = 1500;
                 SprintCooldown = 0;
             }
+
+            //*************************************************************************
 
             if (m_IsSneaking)
             {
@@ -271,5 +290,15 @@ namespace UnityStandardAssets.Characters.FirstPerson
             }
             body.AddForceAtPosition(m_CharacterController.velocity*0.1f, hit.point, ForceMode.Impulse);
         }
+        private void OnCollisionEnter(Collision collision)
+        {
+    // Check if the collided object has the "Player" tag
+    if (collision.gameObject.CompareTag("Enemy"))
+    {
+        
+        // Load the main menu scene
+        GameManager.instance.GameOver();
+    }
+}
     }
 }
