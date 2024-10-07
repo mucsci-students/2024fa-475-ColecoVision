@@ -70,7 +70,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
 			m_MouseLook.Init(transform , m_Camera.transform);
             m_SneakSpeed = m_WalkSpeed;
             m_ogRunSpeed = m_RunSpeed;
-            SprintDuration = 1500;
+            SprintDuration = 500;
             SprintCooldown = 0;
         }
 
@@ -97,17 +97,18 @@ namespace UnityStandardAssets.Characters.FirstPerson
             }
 
             //Stamina/Sprint Cooldown
-            if (SprintDuration == 0)
+
+            if (m_IsWalking && SprintDuration < 500)
             {
-                if (SprintCooldown < 800)
+                if(SprintDuration == 0)
                 {
-                    SprintCooldown++;
+                    while (SprintCooldown < 100)
+                    {
+                        SprintCooldown++;
+                    }
                 }
-            }
-            if (SprintCooldown == 800)
-            {
-                SprintDuration = 1500;
                 SprintCooldown = 0;
+                SprintDuration++;
             }
 
             //*************************************************************************
