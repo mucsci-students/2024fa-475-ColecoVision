@@ -44,7 +44,7 @@ public class Dialogue : MonoBehaviour
         theLines[1] = "I do not remember meeting you before, so I assume you are new.";
         theLines[2] = "In that case, I will go easy on you. Not too sure if my assistants will however";
         theLines[3] = "What do you mean by “assistants!?” We’re all on the same team with the same power!";
-        theLines[4] = "Yeah, come on Tyler, you cannot have everything to yourself. Do I need to remind you what happened the last time we ordered pizza?";
+        theLines[4] = "Yeah, come on Jav, you cannot have everything to yourself. Do I need to remind you what happened the last time we ordered pizza? You started shouting that everyone needed to give their slices over to you!";
         theLines[5] = "Ok fine. So, do one of you two want to explain the game rules to our new challenger?";
         theLines[6] = "Sure, I’ll do it. Your goal in this game is to make it to the end of this dungeon. Do it by whatever means necessary. As long as you do not die, you will get a high score.";
         theLines[7] = "If you die, it is game over. I believe that it is enough information. It is pretty simple, right?";
@@ -61,7 +61,7 @@ public class Dialogue : MonoBehaviour
         //TheLines for Tier 1.
         theLines[10] = "I’m sure you’re confused why you’re back in this room.";
         theLines[11] = "It turns out we lied a little bit. OOPS!";
-        theLines[12] = "Yeah, so you will have to clear through this dungeon again. Except this time, you will make it more difficult for yourself.";
+        theLines[12] = "Well Jav always lies and changes his mind. Yeah, so you will have to clear through this dungeon again. Except this time, you will make it more difficult for yourself.";
         theLines[13] = "It is not to be mean; it is just how the game works. But don’t worry: it’s not all bad news!";
         theLines[14] = "You are going to choose to add a new enemy, trap, or room to this dungeon. But this will give you more points to your high score. Everyone likes an even higher high score, right? It's cool!";
         theLines[15] = "Ok, add your new obstacle, and clear the dungeon again! Wishing you a merry dungeon run and a happy new high score!";
@@ -77,7 +77,7 @@ public class Dialogue : MonoBehaviour
         theLines[17] = "That’s what I wonder too. I feel tricked!";
         theLines[18] = "I heard there is a way for each player to escape their dungeon.";
         theLines[19] = "Do you know what it is?";
-        theLines[20] = "Shhhh.. I heard one of the developers coming towards us!";
+        theLines[20] = "Shhhh.. I heard one of the emperors coming towards us!";
 
         //see tZero loop.
         for (int tTwo = 16; tTwo <= 20; tTwo++)
@@ -86,11 +86,22 @@ public class Dialogue : MonoBehaviour
         }
 
         //TheLines for Tier 3.
-        theLines[21] = "Sorry we didn’t check in with you earlier. It gets busy around here you know.";
-        theLines[22] = "Well, you may have figured out now that unlike Chayse’s love life, this game keeps going until you die.";
-        theLines[23] = "Tyler, I think even our player here knows you have never dated anyone in your life.";
-        theLines[24] = "Ok but still you are one to talk.";
-        theLines[25] = "Sometimes I prefer not to talk. It's easier. There’s less conflict for me.";
+        theLines[21] = "Ah yes, we meet again.";
+        theLines[22] = "That was supposed to be my line!";
+        theLines[23] = "C said you can’t have everything to yourself, Tyler.";
+        theLines[24] = "Which one of you two said that!?";
+        theLines[25] = "Anyways challenger, We came here to tell you just how great of a job you are doing, even though you are stuck here basically forever.";
+        theLines[26] = "Well, there may be a way out for you. Not that I would want you to find that out, because I enjoy watching you play this game.";
+        theLines[27] = "Only Gary has ever escaped successfully. Most players struggle to escape.";
+        theLines[28] = "Does the player even know who Gary is?";
+        theLines[29] = "I have said too much. I won’t be in trouble, will I?";
+        theLines[30] = "Don’t be upset. I’m just happy the player hasn’t bombed the place yet. Wait I wasn’t supposed to say the yet part. STOP TALKING!";
+
+        //see tZero loop.
+        for (int tThree = 21; tThree <= 30; tThree++)
+        {
+            print(theLines[tThree]);
+        }
 
         //**********************************
         return theLines;
