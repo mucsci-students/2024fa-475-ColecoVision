@@ -70,7 +70,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
 			m_MouseLook.Init(transform , m_Camera.transform);
             m_SneakSpeed = m_WalkSpeed;
             m_ogRunSpeed = m_RunSpeed;
-            SprintDuration = 500;
+            SprintDuration = 700;
             SprintCooldown = 0;
         }
 
@@ -97,17 +97,19 @@ namespace UnityStandardAssets.Characters.FirstPerson
             }
 
             //Stamina/Sprint Cooldown
-
-            if (m_IsWalking && SprintDuration < 500)
+            if (SprintDuration == 0 && SprintCooldown < 700)
             {
-                if(SprintDuration == 0)
-                {
-                    while (SprintCooldown < 100)
-                    {
-                        SprintCooldown++;
-                    }
-                }
+                SprintCooldown++;
+            }
+            //When the cooldown is full, reset it and the SprintDuration.
+            if (SprintCooldown == 700)
+            {
+                SprintDuration = 700;
                 SprintCooldown = 0;
+            }
+            //This is what allows the SprintDuration to increase dynamically.
+            if (m_IsWalking == true && ((SprintDuration < 700) && (SprintDuration > 0)))
+            {
                 SprintDuration++;
             }
 
