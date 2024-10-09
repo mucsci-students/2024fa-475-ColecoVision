@@ -32,6 +32,7 @@ public class GameManager : MonoBehaviour
                 Debug.LogWarning("Player not found in the scene. Ensure the Player has the 'Player' tag.");
             }
         }
+        
          
     }
 

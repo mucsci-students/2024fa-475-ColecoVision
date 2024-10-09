@@ -9,6 +9,7 @@ public class pauseMenu : MonoBehaviour
     public static bool Paused = false;
     public GameObject PauseMenuCanvas;
     public GameObject controlsCanvas;
+    public GameObject dialogue;
     public GameObject player;
 
     void Start()
@@ -18,7 +19,7 @@ public class pauseMenu : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) && !dialogue.activeSelf)
         {
             if (Paused)
             {
