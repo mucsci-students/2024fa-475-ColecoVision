@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityStandardAssets.Characters.FirstPerson;
@@ -8,6 +9,9 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;    // Singleton instance
     public GameObject gameOverUI;          // Game Over UI Canvas
     public GameObject player;
+    public int tier;
+
+    //create lists of predetermined enemy and trap positions for when new ones get placed. remove position when used.
 
     private void Awake()
     {
@@ -33,7 +37,7 @@ public class GameManager : MonoBehaviour
             }
         }
         
-         
+         tier = 0;
     }
 
     public void GameOver()
@@ -73,7 +77,74 @@ public class GameManager : MonoBehaviour
         }
 
     
-        SceneManager.LoadScene("Game");  // Reload current scene
+        SceneManager.LoadScene("Game");  // Reload current scene (reset back to tier 0)
+    }
+
+    //if player gets the finish room object, call this method.
+    public void Advance()
+    {
+        //DO NOT CALL RESTARTLEVEL - IT WILL RESET THE ENTIRE GAME
+
+        //call ContinueMenu() method.
+        ContinueMenu();
+
+        //increment tier (as long as player is not at the final tier)
+        if (tier < 3)
+        {
+            tier++;
+        }
+
+        //after that, queue the next piece of dialogue.
+        Dialogue dialogue = new Dialogue();
+
+        if (tier == 1)
+        {
+            dialogue.firstTierScript();
+        }
+        if (tier == 2)
+        {
+            dialogue.secondTierScripts();
+        }
+        if (tier == 3)
+        {
+            dialogue.thirdTierScript();
+        }
+
+        //reset player and enemy positions.
+        //List<GameObject> enemies = new List<GameObject>();
+        
+        //the two arrays store all the current enemies and traps.
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        GameObject[] traps = GameObject.FindGameObjectsWithTag("Trap");
+
+        GameObject currentObj = new GameObject();
+
+        //store positions from enemies array.
+        List<Vector3> enemyPositions = new List<Vector3>();
+        for (int enIndex = 0; enIndex < enemies.Length; enIndex++)
+        {
+            currentObj = enemies[enIndex];
+            //will this get the position they're at now or where they spawn in?
+            Vector3 enemyPos = currentObj.transform.position;
+            enemyPositions.Add(enemyPos);
+        }
+
+        //place the enemies at their original positions. (are the positions correct?)
+        for (int enposIndex = 0; enposIndex < enemyPositions.Count; enposIndex++)
+        {
+            currentObj = enemies[enposIndex];
+            transform.position = enemyPositions[enposIndex];
+        }
+    }
+
+    //***brings up the menu*** that shows the player's current score/score for that level, and prompts the player to continue further in the game.
+    //would this need to be a seperate script?
+    public void ContinueMenu()
+    {
+        player = GameObject.FindGameObjectWithTag("Player");
+        var firstPersonController = player.GetComponent<FirstPersonController>();
+        firstPersonController.enabled = false;
+        //prompt da menu
     }
 
     public void GoToMainMenu()

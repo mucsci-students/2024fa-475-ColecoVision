@@ -93,7 +93,7 @@ nameComponent.text = names[index];
         StartDialogue();
     }
     //tier one lines after the player complete the dungeon the first time
-    void firstTierScript() {
+    public void firstTierScript() {
         lines = new string[6];
         lines[0] = "I�m sure you�re confused why you�re back in this room.";
         lines[1] = "It turns out we lied a little bit. OOPS!";
@@ -113,7 +113,7 @@ nameComponent.text = names[index];
         StartDialogue();
     }
 //tier 2 lines
-    void secondTierScripts() {
+    public void secondTierScripts() {
         lines = new string[5];
         lines[0] = "How did I get into this mess?";
         lines[1] = "That's what I wonder too. I feel tricked!";
@@ -130,7 +130,7 @@ nameComponent.text = names[index];
         StartDialogue();
     }
     //tier three lines
-    void thirdTierScript() {
+    public void thirdTierScript() {
         lines = new string[10];
         lines[0] = "Ah yes, we meet again.";
         lines[1] = "That was supposed to be my line!";
