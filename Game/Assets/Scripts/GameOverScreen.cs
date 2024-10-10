@@ -4,16 +4,21 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityStandardAssets.Characters.FirstPerson;
 
+
+
 public class GameOverScreen : MonoBehaviour
 {
+    public GameManager script;
     public static bool gameOver = false;
     public GameObject PauseMenuCanvas;
     public GameObject player;
     public Text pointsText;
+   
 
-    public void printScore(int score) {
+   
+    public void printScore() {
         gameObject.SetActive(true);
-        pointsText.text = score.ToString() + "POINTS";
+        pointsText.text = script.giveScore(0).ToString() + "POINTS";
     }
     public void Start() {
         //Time.timeScale = 0f;

@@ -17,7 +17,7 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI tierText; 
     public Dialogue dialogue; //references Dialogue script
     public int tier = 0;
-    public int score = 0;
+    public int totalScore = 0;
     public int count = 0;
 
      // Store original positions
@@ -72,6 +72,7 @@ public class GameManager : MonoBehaviour
         Cursor.visible = true;
         gameOverUI.SetActive(true);
         Time.timeScale = 0f;  // Pause the game
+        
     }
 
     public void RestartLevel()
@@ -160,7 +161,7 @@ else {
 
         if (scoreText != null)
         {
-            scoreText.text = "Score: " + score.ToString();
+            scoreText.text = "Score: " + totalScore.ToString();
         }
 
         // Show the continue menu
@@ -198,7 +199,7 @@ else {
             enemies[i].transform.position = originalEnemyPositions[i];
         }
     }
-
+   
     public void GoToMainMenu()
     {
         // Return to the main menu
@@ -211,5 +212,14 @@ else {
         {
             player.SetActive(false); // Deactivate player
         }
+    }
+    
+    public void addScore(int points)
+    {
+        totalScore += points;
+    }
+    public int giveScore(int score)
+    {
+        return score += totalScore;
     }
 }

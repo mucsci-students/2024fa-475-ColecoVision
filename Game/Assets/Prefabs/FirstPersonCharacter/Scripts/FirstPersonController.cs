@@ -297,19 +297,28 @@ namespace UnityStandardAssets.Characters.FirstPerson
         }
         private void OnCollisionEnter(Collision collision)
         {
-    // Check if the collided object has the "Player" tag
-    if (collision.gameObject.CompareTag("Enemy"))
-    {
+             // Check if the collided object has the "Player" tag
+            if (collision.gameObject.CompareTag("Enemy"))
+             {
         
-        // Load the main menu scene
-        GameManager.instance.GameOver();
-    }
-     if (collision.gameObject.CompareTag("Finish"))
-    {
+             // Load the main menu scene
+             GameManager.instance.GameOver();
+             }
+            if (collision.gameObject.CompareTag("Finish"))
+             {
         
-        // Load the main menu scene
-        gameManager.showContinueMenu();
-    }
-}
+             // Load the main menu scene
+             gameManager.showContinueMenu();
+            }
+            if(collision.gameObject.CompareTag("Coin"))
+            {
+                gameManager.addScore(100);
+            }
+            if (collision.gameObject.CompareTag("Book"))
+            {
+                gameManager.addScore(500);
+            }
+
+        }
     }
 }
