@@ -96,7 +96,7 @@ nameComponent.text = names[index];
         lines[1] = "I do not remember meeting you before, so I assume you are new.";
         lines[2] = "In that case, I will go easy on you. Not too sure if my assistants will however";
         lines[3] = "What do you mean by assistants!? We're all on the same team with the same power!";
-        lines[4] = "Yeah, come on Jav, you cannot have everything to yourself. Do I need to remind you what happened the last time we ordered pizza?";
+        lines[4] = "Yeah, come on Jav, you cannot have everything to yourself. Do I need to remind you what happened the last time we ordered pizza? You started shouting that everyone needed to give their slices over to you!?";
         lines[5] = "Ok fine. So, do one of you two want to explain the game rules to our new challenger?";
         lines[6] = "Sure, I'll do it. Your goal in this game is to make it to the end of this dungeon. Do it by whatever means necessary.";
         lines[7] = "If you die, it is game over. I believe that it is enough information. It is pretty simple, right?";
@@ -123,7 +123,7 @@ nameComponent.text = names[index];
         lines[1] = "It turns out we lied a little bit. OOPS!";
         lines[2] = "Well Jav always lies and changes his mind. Yeah, so you will have to clear through this dungeon again. Except this time, you will make it more difficult for yourself.";
         lines[3] = "It is not to be mean; it is just how the game works. But don't worry: it's not all bad news!";
-        lines[4] = "You are going to choose to add a new enemy, trap, or room to this dungeon. But this will give you more points to your high score. Everyone likes an even higher high score, right? It's cool!";
+        lines[4] = "You are going to choose to add a new enemy or trap to this dungeon. But this will give you more points to your high score. Everyone likes an even higher high score, right? It's cool!";
         lines[5] = "Ok, add your new obstacle, and clear the dungeon again! Wishing you a merry dungeon run and a happy new high score!";
         
         names = new string[6];
