@@ -60,7 +60,7 @@ public class GameManager : MonoBehaviour
 
          dialogueUI.SetActive(true);
          dialogue.zeroTierScript();
-         //showContinueMenu();
+        
     }
 
     public void GameOver()

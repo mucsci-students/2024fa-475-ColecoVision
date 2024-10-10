@@ -23224,6 +23224,7 @@ MonoBehaviour:
   nameComponent: {fileID: 618926237}
   textSpeed: 0.05
   player: {fileID: 1010857385}
+  count: 0
 --- !u!1001 &1612041221
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -14,6 +14,10 @@ public class Dialogue : MonoBehaviour
     private int index;
     private string[] lines;
     private string[] names;
+    private IEnumerator TypeLineCoroutine; // Correct placement for coroutine reference
+    public int count = 0;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -22,43 +26,62 @@ public class Dialogue : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetMouseButtonDown(0)) {
-            if (textComponent.text == lines[index]) {
-                NextLine();
-            }
-            else {
-                StopAllCoroutines();
-                textComponent.text = lines[index];
-            }
+    void Update() {
+    if (Input.GetMouseButtonDown(0)) {
+        if (TypeLineCoroutine != null) {
+            // Stop the coroutine and show the full text only if it is currently typing
+            StopCoroutine(TypeLineCoroutine);
+            textComponent.text = lines[index]; // Show the full line
+            TypeLineCoroutine = null; // Reset coroutine reference
+            Debug.Log("Coroutine stopped, full text displayed: " + textComponent.text);
+        } else if (textComponent.text == lines[index]) {
+            // Only proceed to the next line if the current line is fully displayed
+            NextLine();
         }
     }
+}
+    
     void StartDialogue() {
+        textComponent.text = string.Empty;
         player.GetComponent<FirstPersonController>().enabled = false;
         Time.timeScale = 0;
         index = 0;
          Debug.Log("Starting dialogue. Line: " + lines[index]);
-        
-
 nameComponent.text = names[index];
-        StartCoroutine(TypeLine());
+ TypeLineCoroutine = TypeLine(); // Start typing coroutine
+        StartCoroutine(TypeLineCoroutine);
     }
     IEnumerator TypeLine() {
+          textComponent.text = "";
         Debug.Log("Typing line...");
         // Type each character 1 by 1
-        foreach (char c in lines[index].ToCharArray()) {
-            textComponent.text += c;
-            yield return new WaitForSeconds(textSpeed);
+
+        // Append the first character to text
+        if (count == 0) {
+        if (lines[index].Length > 0) {
+            textComponent.text += lines[index][0]; // Start with the first character
+            yield return new WaitForSecondsRealtime(textSpeed);
+            count++;
         }
+        }
+        
+      foreach (char c in lines[index].ToCharArray()) {
+              textComponent.text += c;
+             // Debug.Log("Typed character: " + c); 
+              yield return new WaitForSecondsRealtime(textSpeed);
+          }
+      
+        Debug.Log("Coroutine ended");
+        TypeLineCoroutine = null; // Set coroutine to null after it's done
+
     }
     void NextLine() {
         index++;
         if (index < lines.Length && !string.IsNullOrEmpty(lines[index])) {
             textComponent.text = string.Empty;
-            nameComponent.text = string.Empty;
             nameComponent.text = names[index];
-            StartCoroutine(TypeLine());
+            TypeLineCoroutine = TypeLine(); // Start next line coroutine
+            StartCoroutine(TypeLineCoroutine);
         }
         else {
             gameObject.SetActive(false);
@@ -72,10 +95,10 @@ nameComponent.text = names[index];
         lines[0] = "I see you are the latest competitor";
         lines[1] = "I do not remember meeting you before, so I assume you are new.";
         lines[2] = "In that case, I will go easy on you. Not too sure if my assistants will however";
-        lines[3] = "What do you mean by assistants!? We’re all on the same team with the same power!";
+        lines[3] = "What do you mean by assistants!? We're all on the same team with the same power!";
         lines[4] = "Yeah, come on Jav, you cannot have everything to yourself. Do I need to remind you what happened the last time we ordered pizza?";
         lines[5] = "Ok fine. So, do one of you two want to explain the game rules to our new challenger?";
-        lines[6] = "Sure, I’ll do it. Your goal in this game is to make it to the end of this dungeon. Do it by whatever means necessary.";
+        lines[6] = "Sure, I'll do it. Your goal in this game is to make it to the end of this dungeon. Do it by whatever means necessary.";
         lines[7] = "If you die, it is game over. I believe that it is enough information. It is pretty simple, right?";
         lines[8] = "Agreed.";
         lines[9] = "Ok, good luck out there. Well, at least as much as you can have.";
@@ -96,10 +119,10 @@ nameComponent.text = names[index];
     //tier one lines after the player complete the dungeon the first time
     public void firstTierScript() {
         lines = new string[6];
-        lines[0] = "I�m sure you�re confused why you�re back in this room.";
+        lines[0] = "I'm sure you're confused why you're back in this room.";
         lines[1] = "It turns out we lied a little bit. OOPS!";
         lines[2] = "Well Jav always lies and changes his mind. Yeah, so you will have to clear through this dungeon again. Except this time, you will make it more difficult for yourself.";
-        lines[3] = "It is not to be mean; it is just how the game works. But don�t worry: it�s not all bad news!";
+        lines[3] = "It is not to be mean; it is just how the game works. But don't worry: it's not all bad news!";
         lines[4] = "You are going to choose to add a new enemy, trap, or room to this dungeon. But this will give you more points to your high score. Everyone likes an even higher high score, right? It's cool!";
         lines[5] = "Ok, add your new obstacle, and clear the dungeon again! Wishing you a merry dungeon run and a happy new high score!";
         
