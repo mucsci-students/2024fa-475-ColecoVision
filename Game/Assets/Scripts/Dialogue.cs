@@ -18,7 +18,7 @@ public class Dialogue : MonoBehaviour
     void Start()
     {
         textComponent.text = string.Empty;
-        zeroTierScript();
+        //zeroTierScript();
     }
 
     // Update is called once per frame
@@ -37,8 +37,9 @@ public class Dialogue : MonoBehaviour
     void StartDialogue() {
         player.GetComponent<FirstPersonController>().enabled = false;
         Time.timeScale = 0;
-         Debug.Log("Starting dialogue. Line: " + lines[index]);
         index = 0;
+         Debug.Log("Starting dialogue. Line: " + lines[index]);
+        
 
 nameComponent.text = names[index];
         StartCoroutine(TypeLine());
@@ -66,7 +67,7 @@ nameComponent.text = names[index];
         }
     }
     //tier 0 script when the player starts the game
-    void zeroTierScript() {
+   public void zeroTierScript() {
         lines = new string[10];
         lines[0] = "I see you are the latest competitor";
         lines[1] = "I do not remember meeting you before, so I assume you are new.";
@@ -109,7 +110,6 @@ nameComponent.text = names[index];
         names[3] = "Jav Ascript";
         names[4] = "C. Sharp";
         names[5] = "Jav Ascript";
-        names[6] = "Jav Ascript";
         StartDialogue();
     }
 //tier 2 lines

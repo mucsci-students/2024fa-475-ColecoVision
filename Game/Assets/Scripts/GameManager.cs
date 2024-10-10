@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityStandardAssets.Characters.FirstPerson;
+using UnityEngine.UI;
+using TMPro;
 
 
 public class GameManager : MonoBehaviour
@@ -9,7 +11,18 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;    // Singleton instance
     public GameObject gameOverUI;          // Game Over UI Canvas
     public GameObject player;
-    public int tier;
+    public GameObject continueMenuUI;
+    public GameObject dialogueUI;
+    public TextMeshProUGUI scoreText; 
+    public TextMeshProUGUI tierText; 
+    public Dialogue dialogue; //references Dialogue script
+    public int tier = 0;
+    public int score = 0;
+    public int count = 0;
+
+     // Store original positions
+    private Vector3 originalPlayerPosition;
+    private List<Vector3> originalEnemyPositions = new List<Vector3>();
 
     //create lists of predetermined enemy and trap positions for when new ones get placed. remove position when used.
 
@@ -27,6 +40,7 @@ public class GameManager : MonoBehaviour
         }
     }
     private void Start() {
+  
          // Find and assign the player object by tag
         if (player == null)
         {
@@ -36,8 +50,17 @@ public class GameManager : MonoBehaviour
                 Debug.LogWarning("Player not found in the scene. Ensure the Player has the 'Player' tag.");
             }
         }
+        // Store the original player position
+        originalPlayerPosition = player.transform.position;
+
+         // Store original positions of enemies
+        StoreEnemyPositions();
         
          tier = 0;
+
+         dialogueUI.SetActive(true);
+         dialogue.zeroTierScript();
+         //showContinueMenu();
     }
 
     public void GameOver()
@@ -68,8 +91,8 @@ public class GameManager : MonoBehaviour
                 firstPersonController.enabled = true; // Enable player control
             }
 
-            // Reset player position (if needed)
-            firstPersonController.transform.position = new Vector3(-5, 1, 5); // Example starting position
+            // Reset player position
+            player.transform.position = originalPlayerPosition; // Reset to original position
         }
         else
         {
@@ -83,20 +106,22 @@ public class GameManager : MonoBehaviour
     //if player gets the finish room object, call this method.
     public void Advance()
     {
+        count++;
         //DO NOT CALL RESTARTLEVEL - IT WILL RESET THE ENTIRE GAME
-
-        //call ContinueMenu() method.
-        ContinueMenu();
-
+Debug.Log("Advance was called");
+ //showContinueMenu();
         //increment tier (as long as player is not at the final tier)
+
+       // dialogueUI.SetActive(true);
         if (tier < 3)
         {
             tier++;
         }
-
+       //player.GetComponent<FirstPersonController>().enabled = false;
         //after that, queue the next piece of dialogue.
-        Dialogue dialogue = new Dialogue();
-
+        //Dialogue dialogue = new Dialogue();
+if (count < 4) {
+    dialogueUI.SetActive(true);
         if (tier == 1)
         {
             dialogue.firstTierScript();
@@ -109,42 +134,69 @@ public class GameManager : MonoBehaviour
         {
             dialogue.thirdTierScript();
         }
+}
+else {
+    player.GetComponent<FirstPersonController>().enabled = true;
+    Time.timeScale = 1;
+}
 
-        //reset player and enemy positions.
-        //List<GameObject> enemies = new List<GameObject>();
-        
-        //the two arrays store all the current enemies and traps.
-        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
-        GameObject[] traps = GameObject.FindGameObjectsWithTag("Trap");
+        // Reset player and enemy positions to their original ones
+        ResetPositions();
+    }
 
-        GameObject currentObj = new GameObject();
+     public void showContinueMenu()
+    {
 
-        //store positions from enemies array.
-        List<Vector3> enemyPositions = new List<Vector3>();
-        for (int enIndex = 0; enIndex < enemies.Length; enIndex++)
+        player.GetComponent<FirstPersonController>().enabled = false;
+        Time.timeScale = 0;
+        Cursor.lockState = CursorLockMode.None;
+    Cursor.visible = true;
+        Debug.Log("Showing continue menu");
+        // Set the UI text to show the score and tier
+        if (tierText != null)
         {
-            currentObj = enemies[enIndex];
-            //will this get the position they're at now or where they spawn in?
-            Vector3 enemyPos = currentObj.transform.position;
-            enemyPositions.Add(enemyPos);
+            tierText.text = "Tier: " + tier.ToString();
         }
 
-        //place the enemies at their original positions. (are the positions correct?)
-        for (int enposIndex = 0; enposIndex < enemyPositions.Count; enposIndex++)
+        if (scoreText != null)
         {
-            currentObj = enemies[enposIndex];
-            transform.position = enemyPositions[enposIndex];
+            scoreText.text = "Score: " + score.ToString();
+        }
+
+        // Show the continue menu
+        continueMenuUI.SetActive(true);
+
+    }
+     public void OnContinue()
+    {
+        Debug.Log("Continue button pressed!"); // Add this line
+        // Logic to continue the game
+        continueMenuUI.SetActive(false); // Hide continue menu
+        Advance();
+    }
+    //stores enemy positions
+     private void StoreEnemyPositions()
+    {
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        originalEnemyPositions.Clear(); // Clear previous positions
+
+        foreach (GameObject enemy in enemies)
+        {
+            originalEnemyPositions.Add(enemy.transform.position);
         }
     }
 
-    //***brings up the menu*** that shows the player's current score/score for that level, and prompts the player to continue further in the game.
-    //would this need to be a seperate script?
-    public void ContinueMenu()
+     private void ResetPositions()
     {
-        player = GameObject.FindGameObjectWithTag("Player");
-        var firstPersonController = player.GetComponent<FirstPersonController>();
-        firstPersonController.enabled = false;
-        //prompt da menu
+        // Reset player position
+        player.transform.position = originalPlayerPosition;
+
+        // Reset enemy positions
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        for (int i = 0; i < enemies.Length && i < originalEnemyPositions.Count; i++)
+        {
+            enemies[i].transform.position = originalEnemyPositions[i];
+        }
     }
 
     public void GoToMainMenu()

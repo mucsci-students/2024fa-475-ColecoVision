@@ -10,6 +10,7 @@ public class pauseMenu : MonoBehaviour
     public GameObject PauseMenuCanvas;
     public GameObject controlsCanvas;
     public GameObject dialogue;
+    public GameObject continueMenu;
     public GameObject player;
 
     void Start()
@@ -19,7 +20,7 @@ public class pauseMenu : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape) && !dialogue.activeSelf)
+        if (Input.GetKeyDown(KeyCode.Escape) && !dialogue.activeSelf && !continueMenu.activeSelf)
         {
             if (Paused)
             {

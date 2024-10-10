@@ -44,6 +44,8 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private AudioSource m_AudioSource;
         public static FirstPersonController instance; // Singleton instance
 
+        public GameManager gameManager;
+
         private void Awake()
         {
             // Singleton pattern to ensure only one instance of the FirstPersonController exists
@@ -301,6 +303,12 @@ namespace UnityStandardAssets.Characters.FirstPerson
         
         // Load the main menu scene
         GameManager.instance.GameOver();
+    }
+     if (collision.gameObject.CompareTag("Finish"))
+    {
+        
+        // Load the main menu scene
+        gameManager.showContinueMenu();
     }
 }
     }
