@@ -115,8 +115,8 @@ public class GameManager : MonoBehaviour
     {
         count++;
         //DO NOT CALL RESTARTLEVEL - IT WILL RESET THE ENTIRE GAME
-Debug.Log("Advance was called");
- //showContinueMenu();
+        Debug.Log("Advance was called");
+        //showContinueMenu();
         //increment tier (as long as player is not at the final tier)
 
        // dialogueUI.SetActive(true);
@@ -127,25 +127,29 @@ Debug.Log("Advance was called");
        player.GetComponent<FirstPersonController>().enabled = false;
         //after that, queue the next piece of dialogue.
         //Dialogue dialogue = new Dialogue();
-if (count < 4) {
-    dialogueUI.SetActive(true);
-        if (tier == 1)
+        if (count < 4) 
         {
-            dialogue.firstTierScript();
+
+         dialogueUI.SetActive(true);
+
+            if (tier == 1)
+            {
+             dialogue.firstTierScript();
+            }
+            if (tier == 2)
+            {
+             dialogue.secondTierScripts();
+            }
+            if (tier == 3)
+            {
+             dialogue.thirdTierScript();
+            }
         }
-        if (tier == 2)
+        else 
         {
-            dialogue.secondTierScripts();
+        //player.GetComponent<FirstPersonController>().enabled = true;
+         Time.timeScale = 1;
         }
-        if (tier == 3)
-        {
-            dialogue.thirdTierScript();
-        }
-}
-else {
-    //player.GetComponent<FirstPersonController>().enabled = true;
-    Time.timeScale = 1;
-}
 
         // Reset player and enemy positions to their original ones
         ResetPositions();
@@ -157,7 +161,7 @@ else {
         player.GetComponent<FirstPersonController>().enabled = false;
         Time.timeScale = 0;
         Cursor.lockState = CursorLockMode.None;
-    Cursor.visible = true;
+        Cursor.visible = true;
         Debug.Log("Showing continue menu");
         // Set the UI text to show the score and tier
         if (tierText != null)

@@ -44,6 +44,8 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private AudioSource m_AudioSource;
         public static FirstPersonController instance; // Singleton instance
 
+        private bool IsBookButton;
+
         public GameManager gameManager;
 
         private void Awake()
@@ -128,6 +130,13 @@ namespace UnityStandardAssets.Characters.FirstPerson
                 m_WalkSpeed = m_SneakSpeed;
                 m_Camera.transform.localPosition = m_OriginalCameraPosition;
                 m_RunSpeed = m_ogRunSpeed;
+            }
+
+            if (IsBookButton)
+            {
+                //if player has collected the book object
+                //{
+                //  call method/s from encyclopedia
             }
 
             if (!m_PreviouslyGrounded && m_CharacterController.isGrounded)
@@ -249,6 +258,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
             // keep track of whether or not the character is walking or running
             m_IsWalking = !Input.GetKey(KeyCode.LeftShift);
             m_IsSneaking = Input.GetKey(KeyCode.C);
+            IsBookButton = Input.GetKey(KeyCode.B);
 #endif
             // set the desired speed to be walking or running
             speed = m_IsWalking ? m_WalkSpeed : m_RunSpeed;
@@ -298,19 +308,17 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private void OnCollisionEnter(Collision collision)
         {
              // Check if the collided object has the "Player" tag
-            if (collision.gameObject.CompareTag("Enemy"))
+            if ((collision.gameObject.CompareTag("Enemy")) || (collision.gameObject.CompareTag("Trap")))
              {
-        
-             // Load the main menu scene
-             GameManager.instance.GameOver();
+                // Load the main menu scene
+                GameManager.instance.GameOver();
              }
             if (collision.gameObject.CompareTag("Finish"))
              {
-        
-             // Load the main menu scene
-             gameManager.showContinueMenu();
+                // Load the main menu scene
+                gameManager.showContinueMenu();
             }
-            if(collision.gameObject.CompareTag("Coin"))
+            if (collision.gameObject.CompareTag("Coin"))
             {
                 gameManager.addScore(100);
             }
