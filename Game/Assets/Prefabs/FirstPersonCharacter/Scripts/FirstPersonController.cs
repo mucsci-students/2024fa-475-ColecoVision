@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.UI;
 //using UnityStandardAssets.CrossPlatformInput;
 //using UnityStandardAssets.Utility;
 using Random = UnityEngine.Random;
@@ -48,6 +49,8 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
         public GameManager gameManager;
         private Vector3 initialPlayerPosition;
+
+        public Slider staminaBar; // Reference to the stamina UI bar
 
         private void Awake()
         {
@@ -100,6 +103,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
                 if (SprintDuration > 0 && ((Input.GetKey(KeyCode.W)) || (Input.GetKey(KeyCode.A)) || (Input.GetKey(KeyCode.S)) || (Input.GetKey(KeyCode.D)) || (Input.GetKey(KeyCode.UpArrow)) || (Input.GetKey(KeyCode.DownArrow)) || (Input.GetKey(KeyCode.LeftArrow)) || (Input.GetKey(KeyCode.RightArrow))))
                 {
                     SprintDuration--;
+                    staminaBar.value = SprintDuration;
                 }
             }
 
@@ -107,17 +111,20 @@ namespace UnityStandardAssets.Characters.FirstPerson
             if (SprintDuration == 0 && SprintCooldown < 700)
             {
                 SprintCooldown++;
+                staminaBar.value = SprintDuration;
             }
             //When the cooldown is full, reset it and the SprintDuration.
             if (SprintCooldown == 700)
             {
                 SprintDuration = 700;
                 SprintCooldown = 0;
+                staminaBar.value = SprintDuration;
             }
             //This is what allows the SprintDuration to increase dynamically.
             if (m_IsWalking == true && ((SprintDuration < 700) && (SprintDuration > 0)))
             {
                 SprintDuration++;
+                staminaBar.value = SprintDuration;
             }
 
             //*************************************************************************
@@ -318,11 +325,14 @@ namespace UnityStandardAssets.Characters.FirstPerson
              }
             if (collision.gameObject.CompareTag("Finish"))
              {
-
+gameManager.score += 1000;
+FindObjectOfType<PointsDisplay>().AddPoints(1000);
                 m_CharacterController.enabled = false;;
                 gameManager.ResetPositions();
                 m_CharacterController.enabled = true;
-         
+         SprintDuration = 700;
+         SprintCooldown = 0;
+         staminaBar.value = SprintDuration;
              // Load the main menu scene
              gameManager.showContinueMenu();
             }

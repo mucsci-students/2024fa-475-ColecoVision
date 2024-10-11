@@ -23,7 +23,9 @@ public class GameManager : MonoBehaviour
 
      // Store original positions
     private Vector3 originalPlayerPosition;
+    private Quaternion initialRotation;
     private List<Vector3> originalEnemyPositions = new List<Vector3>();
+    private List<Vector3> originalCoinPositions = new List<Vector3>();
 
     //create lists of predetermined enemy and trap positions for when new ones get placed. remove position when used.
 
@@ -54,9 +56,11 @@ public class GameManager : MonoBehaviour
         // Store the original player position
         originalPlayerPosition = player.transform.position;
         Debug.Log("Initial player position: " + originalPlayerPosition.ToString());
+        initialRotation = player.transform.rotation;
 
          // Store original positions of enemies
         StoreEnemyPositions();
+        StoreCoinPositions();
         
          tier = 0;
 
@@ -74,12 +78,8 @@ public class GameManager : MonoBehaviour
         Cursor.visible = true;
         gameOverUI.SetActive(true);
         Time.timeScale = 0f;  // Pause the game
-        if (score == 1) {
-        pointsText.text = score.ToString() + " point";
-        }
-        else {
             pointsText.text = score.ToString() + " points";
-        }
+        
     }
     
     public void RestartLevel()
@@ -148,7 +148,7 @@ public class GameManager : MonoBehaviour
         }
         else 
         {
-        //player.GetComponent<FirstPersonController>().enabled = true;
+        player.GetComponent<FirstPersonController>().enabled = true;
          Time.timeScale = 1;
         }
         // Reset player and enemy positions to their original ones
@@ -183,7 +183,7 @@ public class GameManager : MonoBehaviour
         Debug.Log("Continue button pressed!"); // Add this line
         // Logic to continue the game
         continueMenuUI.SetActive(false); // Hide continue menu
-        ResetPositions();
+       // ResetPositions();
         // player.GetComponent<FirstPersonController>().enabled = true;
         // Debug.Log("Initial player position b4  calling reset in onContinue: " + originalPlayerPosition.ToString());
          
@@ -201,6 +201,17 @@ public class GameManager : MonoBehaviour
             originalEnemyPositions.Add(enemy.transform.position);
         }
     }
+      //stores coin positions
+     private void StoreCoinPositions()
+    {
+        GameObject[] coins = GameObject.FindGameObjectsWithTag("Coin");
+        originalCoinPositions.Clear(); // Clear previous positions
+
+        foreach (GameObject coin in coins)
+        {
+            originalCoinPositions.Add(coin.transform.position);
+        }
+    }
 
      public void ResetPositions()
     {
@@ -208,6 +219,7 @@ public class GameManager : MonoBehaviour
  player.SetActive(true);
         // Reset player position
         player.transform.position = originalPlayerPosition;
+        player.transform.rotation = initialRotation;
  Debug.Log("Player new position: " + player.transform.position);
   Rigidbody playerRigidbody = player.GetComponent<Rigidbody>();
     if (playerRigidbody != null)
@@ -220,6 +232,12 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < enemies.Length && i < originalEnemyPositions.Count; i++)
         {
             enemies[i].transform.position = originalEnemyPositions[i];
+        }
+          // Reset coin positions
+        GameObject[] coins = GameObject.FindGameObjectsWithTag("Coin");
+        for (int i = 0; i < coins.Length && i < originalCoinPositions.Count; i++)
+        {
+            coins[i].transform.position = originalCoinPositions[i];
         }
     }
    
@@ -239,15 +257,14 @@ public class GameManager : MonoBehaviour
     
     public void addScore(int points)
     {
+        points = points * (tier + 1);
         score += points;
          if (scoreText != null)
     {
         scoreText.text = "Score: " + score.ToString();
+         FindObjectOfType<PointsDisplay>().AddPoints(points);
     }
     Debug.Log("Score added");
     }
-    public int giveScore(int scoreB)
-    {
-        return score += scoreB;
-    }
+
 }
