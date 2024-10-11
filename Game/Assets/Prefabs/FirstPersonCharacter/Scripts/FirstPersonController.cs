@@ -47,6 +47,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private bool IsBookButton;
 
         public GameManager gameManager;
+        private Vector3 initialPlayerPosition;
 
         private void Awake()
         {
@@ -64,6 +65,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
         // Use this for initialization
         private void Start()
         {
+            
             m_CharacterController = GetComponent<CharacterController>();
             m_Camera = Camera.main;
             m_OriginalCameraPosition = m_Camera.transform.localPosition;
@@ -76,6 +78,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
             m_ogRunSpeed = m_RunSpeed;
             SprintDuration = 700;
             SprintCooldown = 0;
+
         }
 
 
@@ -315,8 +318,13 @@ namespace UnityStandardAssets.Characters.FirstPerson
              }
             if (collision.gameObject.CompareTag("Finish"))
              {
-                // Load the main menu scene
-                gameManager.showContinueMenu();
+
+                m_CharacterController.enabled = false;;
+                gameManager.ResetPositions();
+                m_CharacterController.enabled = true;
+         
+             // Load the main menu scene
+             gameManager.showContinueMenu();
             }
             if (collision.gameObject.CompareTag("Coin"))
             {

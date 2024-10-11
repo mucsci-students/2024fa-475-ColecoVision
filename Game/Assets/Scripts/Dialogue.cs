@@ -10,17 +10,21 @@ public class Dialogue : MonoBehaviour
     public TextMeshProUGUI nameComponent;
     public float textSpeed;
     public GameObject player;
-
+     
     private int index;
     private string[] lines;
     private string[] names;
     private IEnumerator TypeLineCoroutine; // Correct placement for coroutine reference
     public int count = 0;
+     private Vector3 originalPlayerPosition;
 
 
     // Start is called before the first frame update
     void Start()
     {
+        
+        originalPlayerPosition = player.transform.position;
+
         textComponent.text = string.Empty;
         //zeroTierScript();
     }
@@ -85,8 +89,15 @@ nameComponent.text = names[index];
         }
         else {
             gameObject.SetActive(false);
+            player.transform.position = originalPlayerPosition;
             player.GetComponent<FirstPersonController>().enabled = true;
             Time.timeScale = 1;
+            Debug.Log("OG player position: " + originalPlayerPosition.ToString());
+//  FirstPersonController firstPersonController = player.GetComponent<FirstPersonController>();
+
+// firstPersonController.m_Camera.transform.position = originalPlayerPosition;
+             player.transform.position = originalPlayerPosition;
+             
         }
     }
     //tier 0 script when the player starts the game

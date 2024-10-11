@@ -53,6 +53,7 @@ public class GameManager : MonoBehaviour
         }
         // Store the original player position
         originalPlayerPosition = player.transform.position;
+        Debug.Log("Initial player position: " + originalPlayerPosition.ToString());
 
          // Store original positions of enemies
         StoreEnemyPositions();
@@ -80,7 +81,7 @@ public class GameManager : MonoBehaviour
             pointsText.text = score.ToString() + " points";
         }
     }
-
+    
     public void RestartLevel()
     {
         // Restart the current level
@@ -150,10 +151,9 @@ public class GameManager : MonoBehaviour
         //player.GetComponent<FirstPersonController>().enabled = true;
          Time.timeScale = 1;
         }
-
         // Reset player and enemy positions to their original ones
-        ResetPositions();
-        player.GetComponent<FirstPersonController>().enabled = true;
+       
+        //player.GetComponent<FirstPersonController>().enabled = true;
     }
 
      public void showContinueMenu()
@@ -183,6 +183,11 @@ public class GameManager : MonoBehaviour
         Debug.Log("Continue button pressed!"); // Add this line
         // Logic to continue the game
         continueMenuUI.SetActive(false); // Hide continue menu
+        ResetPositions();
+        // player.GetComponent<FirstPersonController>().enabled = true;
+        // Debug.Log("Initial player position b4  calling reset in onContinue: " + originalPlayerPosition.ToString());
+         
+        //  player.GetComponent<FirstPersonController>().enabled = false;
         Advance();
     }
     //stores enemy positions
@@ -197,11 +202,19 @@ public class GameManager : MonoBehaviour
         }
     }
 
-     private void ResetPositions()
+     public void ResetPositions()
     {
+        Debug.Log("Original player position: " + originalPlayerPosition.ToString());
+ player.SetActive(true);
         // Reset player position
         player.transform.position = originalPlayerPosition;
-
+ Debug.Log("Player new position: " + player.transform.position);
+  Rigidbody playerRigidbody = player.GetComponent<Rigidbody>();
+    if (playerRigidbody != null)
+    {
+        playerRigidbody.velocity = Vector3.zero;
+        playerRigidbody.angularVelocity = Vector3.zero;
+    }
         // Reset enemy positions
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
         for (int i = 0; i < enemies.Length && i < originalEnemyPositions.Count; i++)
@@ -227,6 +240,11 @@ public class GameManager : MonoBehaviour
     public void addScore(int points)
     {
         score += points;
+         if (scoreText != null)
+    {
+        scoreText.text = "Score: " + score.ToString();
+    }
+    Debug.Log("Score added");
     }
     public int giveScore(int scoreB)
     {

@@ -15,9 +15,9 @@ public class Coin : MonoBehaviour
 
     public static event Action OnCollected;
 
-    void OnTriggerEnter(Collider other)
+    void OnCollisionEnter(Collision collision)
     {
-        if (other.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("Player"))
         {
             OnCollected?.Invoke();
             Destroy(gameObject);
