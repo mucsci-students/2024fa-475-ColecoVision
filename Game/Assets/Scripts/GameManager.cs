@@ -15,9 +15,10 @@ public class GameManager : MonoBehaviour
     public GameObject dialogueUI;
     public TextMeshProUGUI scoreText; 
     public TextMeshProUGUI tierText; 
+    public TextMeshProUGUI pointsText;
     public Dialogue dialogue; //references Dialogue script
     public int tier = 0;
-    public int totalScore = 0;
+    public int score = 0;
     public int count = 0;
 
      // Store original positions
@@ -72,7 +73,12 @@ public class GameManager : MonoBehaviour
         Cursor.visible = true;
         gameOverUI.SetActive(true);
         Time.timeScale = 0f;  // Pause the game
-        
+        if (score == 1) {
+        pointsText.text = score.ToString() + " point";
+        }
+        else {
+            pointsText.text = score.ToString() + " points";
+        }
     }
 
     public void RestartLevel()
@@ -118,7 +124,7 @@ Debug.Log("Advance was called");
         {
             tier++;
         }
-       //player.GetComponent<FirstPersonController>().enabled = false;
+       player.GetComponent<FirstPersonController>().enabled = false;
         //after that, queue the next piece of dialogue.
         //Dialogue dialogue = new Dialogue();
 if (count < 4) {
@@ -137,17 +143,17 @@ if (count < 4) {
         }
 }
 else {
-    player.GetComponent<FirstPersonController>().enabled = true;
+    //player.GetComponent<FirstPersonController>().enabled = true;
     Time.timeScale = 1;
 }
 
         // Reset player and enemy positions to their original ones
         ResetPositions();
+        player.GetComponent<FirstPersonController>().enabled = true;
     }
 
      public void showContinueMenu()
     {
-
         player.GetComponent<FirstPersonController>().enabled = false;
         Time.timeScale = 0;
         Cursor.lockState = CursorLockMode.None;
@@ -161,7 +167,7 @@ else {
 
         if (scoreText != null)
         {
-            scoreText.text = "Score: " + totalScore.ToString();
+            scoreText.text = "Score: " + score.ToString();
         }
 
         // Show the continue menu
@@ -216,10 +222,10 @@ else {
     
     public void addScore(int points)
     {
-        totalScore += points;
+        score += points;
     }
-    public int giveScore(int score)
+    public int giveScore(int scoreB)
     {
-        return score += totalScore;
+        return score += scoreB;
     }
 }
