@@ -18,13 +18,13 @@ public class Encyclopedia : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public string[] Contents()
     {
-        //0 - 2 = enemies, 3 - 5 = traps, 6 - 8 = collectibles.
-        contents = new string[9];
+        //0 - 2 = enemies, 3 - 7 = traps, 8 - 10 = collectibles.
+        contents = new string[11];
 
         //enemies
         contents[0] = "goblin";
@@ -35,18 +35,20 @@ public class Encyclopedia : MonoBehaviour
         contents[3] = "spikes";
         contents[4] = "lava";
         contents[5] = "webs";
+        contents[6] = "swing";
+        contents[7] = "trapdoor";
 
         //collectibles
-        contents[6] = "coins";
-        contents[7] = "book";
-        contents[8] = "LEGEND"; //secret bomb item
+        contents[8] = "coins";
+        contents[9] = "book";
+        contents[10] = "LEGEND"; //secret bomb item
 
         return contents;
     }
 
     public string[] Descriptions()
     {
-        descriptions = new string[9];
+        descriptions = new string[11];
 
         //enemies
         descriptions[0] = "Little ugly green things that follow you. May spawn in groups.";
@@ -57,11 +59,13 @@ public class Encyclopedia : MonoBehaviour
         descriptions[3] = "They prick you really hard and you die.";
         descriptions[4] = "Some people pretend the floor is made of this. Here it really is. Its hot and it burns you and you die.";
         descriptions[5] = "Spiders leave these behind. I don't want to say anymore spiders creep me out. THERES ONE ON MY DESK!!";
+        descriptions[6] = "Make for a fun day on the playground!";
+        descriptions[7] = "Step on it and you fall through!";
 
         //collectibles
-        descriptions[6] = "Looks like everyone is copying mario, huh? These give you 100 points.";
-        descriptions[7] = "The thing you're holding. Get your eyes checked! JK, this book tells you all about the dungeon. Well I have to be sort of nice, it may affect my grade. You may earn 500 points, but I'm hoping to earn 100! At least 99?";
-        descriptions[8] = "Legend says a player may be able to escape finding this item. Nobody knows for sure what it is, and I'm certainly not telling you.";
+        descriptions[8] = "Looks like everyone is copying mario, huh? These give you 100 points.";
+        descriptions[9] = "The thing you're holding. Get your eyes checked! JK, this book tells you all about the dungeon. Well I have to be sort of nice, it may affect my grade. You may earn 500 points, but I'm hoping to earn 100! At least 99?";
+        descriptions[10] = "Legend says a player may be able to escape finding this item. Nobody knows for sure what it is, and I'm certainly not telling you.";
 
         return contents;
     }
@@ -70,7 +74,7 @@ public class Encyclopedia : MonoBehaviour
     {
         //if player clicks on the item from contents[contentsIndex]
         //  then you would call this method
-       
+
         //return contents[contentsIndex];
         return descriptions[contentsIndex];
     }
