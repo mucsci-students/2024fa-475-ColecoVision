@@ -46,6 +46,8 @@ namespace UnityStandardAssets.Characters.FirstPerson
         public static FirstPersonController instance; // Singleton instance
 
         private bool IsBookButton;
+        //POSITION TEST
+        private bool POSITIONTESTKEY;
 
         public GameManager gameManager;
         private Vector3 initialPlayerPosition;
@@ -147,6 +149,12 @@ namespace UnityStandardAssets.Characters.FirstPerson
                 //if player has collected the book object
                 //{
                 //  call method/s from encyclopedia
+            }
+
+            //POSITION TEST
+            if (POSITIONTESTKEY)
+            {
+                print(m_CharacterController.transform.position);
             }
 
             if (!m_PreviouslyGrounded && m_CharacterController.isGrounded)
@@ -268,7 +276,10 @@ namespace UnityStandardAssets.Characters.FirstPerson
             // keep track of whether or not the character is walking or running
             m_IsWalking = !Input.GetKey(KeyCode.LeftShift);
             m_IsSneaking = Input.GetKey(KeyCode.C);
-            IsBookButton = Input.GetKey(KeyCode.B);
+            IsBookButton = Input.GetKeyDown(KeyCode.B);
+
+            //POSITION TEST
+            POSITIONTESTKEY = Input.GetKeyDown(KeyCode.P);
 #endif
             // set the desired speed to be walking or running
             speed = m_IsWalking ? m_WalkSpeed : m_RunSpeed;

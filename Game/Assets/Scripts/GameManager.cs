@@ -28,6 +28,10 @@ public class GameManager : MonoBehaviour
     private List<Vector3> originalEnemyPositions = new List<Vector3>();
     private List<Vector3> originalCoinPositions = new List<Vector3>();
 
+    //Positions for New Enemy/Trap Placements
+    private List<Vector3> newEnemyPositions = new List<Vector3>();
+    private List<Vector3> newTrapPositions = new List<Vector3>();
+
     //create lists of predetermined enemy and trap positions for when new ones get placed. remove position when used.
 
     private void Awake()
@@ -62,6 +66,7 @@ public class GameManager : MonoBehaviour
          // Store original positions of enemies
         StoreEnemyPositions();
         StoreCoinPositions();
+        StoreNuPositions();
         
          tier = 0;
 
@@ -73,22 +78,22 @@ public class GameManager : MonoBehaviour
     {
         // Show the Game Over screen and pause the game
         Debug.Log("Game over");
-         player.GetComponent<FirstPersonController>().enabled = false;
+
+        player.GetComponent<FirstPersonController>().enabled = false;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
         gameOverUI.SetActive(true);
         Time.timeScale = 0f;  // Pause the game
-            pointsText.text = score.ToString() + " points";
-        
+        pointsText.text = score.ToString() + " points";
     }
     
     public void RestartLevel()
     {
         // Restart the current level
-         Debug.Log("Restart");
+        Debug.Log("Restart");
         Time.timeScale = 1f;  // Resume time
         gameOverUI.SetActive(false);
-        //player.GetComponent<FirstPersonController>().enabled = true;
+
           player = GameObject.FindGameObjectWithTag("Player");
 
             if (player != null)
@@ -117,17 +122,14 @@ public class GameManager : MonoBehaviour
         count++;
         //DO NOT CALL RESTARTLEVEL - IT WILL RESET THE ENTIRE GAME
         Debug.Log("Advance was called");
-        //showContinueMenu();
-        //increment tier (as long as player is not at the final tier)
 
-       // dialogueUI.SetActive(true);
         if (tier < 3)
         {
             tier++;
         }
-       player.GetComponent<FirstPersonController>().enabled = false;
-        //after that, queue the next piece of dialogue.
-        //Dialogue dialogue = new Dialogue();
+        player.GetComponent<FirstPersonController>().enabled = false;
+
+        //queue the next piece of dialogue.
         if (count < 4) 
         {
 
@@ -144,6 +146,7 @@ public class GameManager : MonoBehaviour
             if (tier == 3)
             {
              dialogue.thirdTierScript();
+             bomb.SetActive(true);
             }
         }
         else 
@@ -154,11 +157,6 @@ public class GameManager : MonoBehaviour
         // Reset player and enemy positions to their original ones
 
         //player.GetComponent<FirstPersonController>().enabled = true;
-
-        if (tier == 3)
-        {
-            //bomb.SetActive(true);
-        }
     }
 
      public void showContinueMenu()
@@ -217,21 +215,63 @@ public class GameManager : MonoBehaviour
             originalCoinPositions.Add(coin.transform.position);
         }
     }
+    //Stores all the objects the player has not placed yet. Ensures they are not active at start.
+    private void StoreNuPositions()
+    {
+        GameObject[] nuEnemies = GameObject.FindGameObjectsWithTag("NuEnemy");
+        GameObject[] nuTraps = GameObject.FindGameObjectsWithTag("NuTrap");
+
+        for (int enIndex = 0; enIndex < nuEnemies.Length; enIndex++)
+        {
+            nuEnemies[enIndex].SetActive(false);
+        }
+
+        for (int trIndex = 0; trIndex < nuTraps.Length; trIndex++)
+        {
+            nuTraps[trIndex].SetActive(false);
+        }
+    }
+
+    //for placing new enemies/traps. have ones that are set to false, and switch the one at a specific position to true.
+
+    //two seperate methods??? change type/s ??
+    public void newPlacement(GameObject objectToPlace)
+    {
+        //a new enemy/trap is created in the method that allows the player to select one or the other?
+        //pass that new object in as the parameter?
+        //new object should be the one we want to select?
+
+        //if we want to use a nuEnemy / nuTrap, we will change its tag to "Enemy" or "Trap", and then call StoreEnemyPositions again?
+            //remove from array?
+
+        //how to grab object we want?
+        
+        if (objectToPlace.tag.Equals("Enemy"))
+        {
+            //
+        }
+        if (objectToPlace.tag.Equals("Trap"))
+        {
+
+        }
+    }
 
      public void ResetPositions()
     {
         Debug.Log("Original player position: " + originalPlayerPosition.ToString());
- player.SetActive(true);
+        player.SetActive(true);
+
         // Reset player position
         player.transform.position = originalPlayerPosition;
         player.transform.rotation = initialRotation;
- Debug.Log("Player new position: " + player.transform.position);
-  Rigidbody playerRigidbody = player.GetComponent<Rigidbody>();
-    if (playerRigidbody != null)
-    {
-        playerRigidbody.velocity = Vector3.zero;
-        playerRigidbody.angularVelocity = Vector3.zero;
-    }
+        Debug.Log("Player new position: " + player.transform.position);
+        Rigidbody playerRigidbody = player.GetComponent<Rigidbody>();
+
+        if (playerRigidbody != null)
+        {
+            playerRigidbody.velocity = Vector3.zero;
+            playerRigidbody.angularVelocity = Vector3.zero;
+        }
         // Reset enemy positions
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
         for (int i = 0; i < enemies.Length && i < originalEnemyPositions.Count; i++)
@@ -264,11 +304,12 @@ public class GameManager : MonoBehaviour
     {
         points = points * (tier + 1);
         score += points;
-         if (scoreText != null)
-    {
+         
+     if (scoreText != null)
+     {
         scoreText.text = "Score: " + score.ToString();
-         FindObjectOfType<PointsDisplay>().AddPoints(points);
-    }
-    Debug.Log("Score added");
+        FindObjectOfType<PointsDisplay>().AddPoints(points);
+     }
+        Debug.Log("Score added");
     }
 }

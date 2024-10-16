@@ -8,6 +8,8 @@ TagManager:
   - Trap
   - Coin
   - Book
+  - NuEnemy
+  - NuTrap
   layers:
   - Default
   - TransparentFX

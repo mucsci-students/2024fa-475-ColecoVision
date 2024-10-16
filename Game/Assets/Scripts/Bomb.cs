@@ -9,7 +9,7 @@ public class Bomb : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.localRotation = Quaternion.Euler(90f, Time.time * 100f, 0);
+        //hi
     }
 
     public static event Action OnCollected;
