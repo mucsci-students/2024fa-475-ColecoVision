@@ -8,6 +8,7 @@ public class NewBehaviourScript : MonoBehaviour
 {
     public GameObject mainMenu;
     public GameObject controlsMenu;
+    public GameObject settingsMenu;
     public GameObject player;
     void Start() {
          
@@ -22,16 +23,18 @@ public class NewBehaviourScript : MonoBehaviour
     }
     public void controls() {
         mainMenu.SetActive(false);
-        
         controlsMenu.SetActive(true);
-
     }
     public void MainMenu() {
+        settingsMenu.SetActive(false);
         controlsMenu.SetActive(false);
         mainMenu.SetActive(true);
 
     }
-
+    public void settings() {
+        mainMenu.SetActive(false);
+        settingsMenu.SetActive(true);
+    }
     public void quit()
     {
         Application.Quit();
