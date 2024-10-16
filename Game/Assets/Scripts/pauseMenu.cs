@@ -11,6 +11,7 @@ public class pauseMenu : MonoBehaviour
     public GameObject controlsCanvas;
     public GameObject dialogue;
     public GameObject continueMenu;
+    public GameObject settingsCanvas;
     public GameObject player;
 
     void Start()
@@ -52,11 +53,16 @@ public class pauseMenu : MonoBehaviour
     }
     public void PauseMenu() {
         controlsCanvas.SetActive(false);
+        settingsCanvas.SetActive(false);
         PauseMenuCanvas.SetActive(true);
     }
     public void controls() {
         PauseMenuCanvas.SetActive(false);
         controlsCanvas.SetActive(true);
+    }
+    public void settings() {
+        PauseMenuCanvas.SetActive(false);
+        settingsCanvas.SetActive(true);
     }
 
     public void MainMenuButton()
