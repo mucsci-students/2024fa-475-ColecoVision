@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     public GameObject player;
     public GameObject continueMenuUI;
     public GameObject dialogueUI;
+    public GameObject bomb;
     public TextMeshProUGUI scoreText; 
     public TextMeshProUGUI tierText; 
     public TextMeshProUGUI pointsText;
@@ -43,7 +44,7 @@ public class GameManager : MonoBehaviour
         }
     }
     private void Start() {
-  
+
          // Find and assign the player object by tag
         if (player == null)
         {
@@ -66,7 +67,6 @@ public class GameManager : MonoBehaviour
 
          dialogueUI.SetActive(true);
          dialogue.zeroTierScript();
-        
     }
 
     public void GameOver()
@@ -152,8 +152,13 @@ public class GameManager : MonoBehaviour
          Time.timeScale = 1;
         }
         // Reset player and enemy positions to their original ones
-       
+
         //player.GetComponent<FirstPersonController>().enabled = true;
+
+        if (tier == 3)
+        {
+            //bomb.SetActive(true);
+        }
     }
 
      public void showContinueMenu()
@@ -266,5 +271,4 @@ public class GameManager : MonoBehaviour
     }
     Debug.Log("Score added");
     }
-
 }
