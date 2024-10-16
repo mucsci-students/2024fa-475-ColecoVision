@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     public GameObject player;
     public GameObject continueMenuUI;
     public GameObject dialogueUI;
+    public GameObject bomb;
     public TextMeshProUGUI scoreText; 
     public TextMeshProUGUI tierText; 
     public TextMeshProUGUI pointsText;
@@ -43,7 +44,7 @@ public class GameManager : MonoBehaviour
         }
     }
     private void Start() {
-  
+        showBomb();
          // Find and assign the player object by tag
         if (player == null)
         {
@@ -114,6 +115,7 @@ public class GameManager : MonoBehaviour
     //if player gets the finish room object, call this method.
     public void Advance()
     {
+        showBomb();
         count++;
         //DO NOT CALL RESTARTLEVEL - IT WILL RESET THE ENTIRE GAME
         Debug.Log("Advance was called");
@@ -267,4 +269,15 @@ public class GameManager : MonoBehaviour
     Debug.Log("Score added");
     }
 
+    public void showBomb()
+    {
+        if(count >= 3)
+        {
+            bomb.SetActive(true);
+        }
+        else
+        {
+            bomb.SetActive(false);
+        }
+    }
 }
