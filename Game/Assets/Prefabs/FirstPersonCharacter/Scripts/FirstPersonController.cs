@@ -325,20 +325,23 @@ namespace UnityStandardAssets.Characters.FirstPerson
              }
             if (collision.gameObject.CompareTag("Finish"))
              {
-gameManager.score += 1000;
-FindObjectOfType<PointsDisplay>().AddPoints(1000);
+                gameManager.score += 1000;
+                FindObjectOfType<PointsDisplay>().AddPoints(1000);
+
                 m_CharacterController.enabled = false;;
                 gameManager.ResetPositions();
                 m_CharacterController.enabled = true;
-         SprintDuration = 700;
-         SprintCooldown = 0;
-         staminaBar.value = SprintDuration;
-             // Load the main menu scene
-             gameManager.showContinueMenu();
+
+                SprintDuration = 700;
+                SprintCooldown = 0;
+                staminaBar.value = SprintDuration;
+
+                // Load the main menu scene
+                gameManager.showContinueMenu();
             }
             if (collision.gameObject.CompareTag("Coin"))
             {
-                gameManager.addScore(100);
+                gameManager.addScore(50);
             }
             if (collision.gameObject.CompareTag("Book"))
             {
