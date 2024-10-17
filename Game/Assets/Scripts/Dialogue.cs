@@ -10,6 +10,8 @@ public class Dialogue : MonoBehaviour
     public TextMeshProUGUI nameComponent;
     public float textSpeed;
     public GameObject player;
+    public GameObject chooseUI;
+    public GameManager gameManager;
      
     private int index;
     private string[] lines;
@@ -90,6 +92,10 @@ nameComponent.text = names[index];
         else {
             gameObject.SetActive(false);
             player.transform.position = originalPlayerPosition;
+            if (gameManager.tier > 0) {
+            chooseUI.SetActive(true);
+            }
+            else {
             player.GetComponent<FirstPersonController>().enabled = true;
             Time.timeScale = 1;
             Debug.Log("OG player position: " + originalPlayerPosition.ToString());
@@ -97,6 +103,7 @@ nameComponent.text = names[index];
 
 // firstPersonController.m_Camera.transform.position = originalPlayerPosition;
              player.transform.position = originalPlayerPosition;
+            }
              
         }
     }

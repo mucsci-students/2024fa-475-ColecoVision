@@ -50,6 +50,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private bool POSITIONTESTKEY;
 
         public GameManager gameManager;
+        public endMenu end;
         private Vector3 initialPlayerPosition;
 
         public Slider staminaBar; // Reference to the stamina UI bar
@@ -339,6 +340,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
                 gameManager.score += 1000;
                 FindObjectOfType<PointsDisplay>().AddPoints(1000);
 
+                if (!gameManager.hasBomb) {
                 m_CharacterController.enabled = false;;
                 gameManager.ResetPositions();
                 m_CharacterController.enabled = true;
@@ -349,6 +351,12 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
                 // Load the main menu scene
                 gameManager.showContinueMenu();
+                }
+                // player has the bomb and gets sent to the end UI
+                else {
+                    int totalScore = gameManager.score;
+                    end.showEndMenu(totalScore);
+                }
             }
             if (collision.gameObject.CompareTag("Coin"))
             {
