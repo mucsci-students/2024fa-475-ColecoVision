@@ -255,7 +255,6 @@ public class GameManager : MonoBehaviour
         player.GetComponent<FirstPersonController>().enabled = true;
         Time.timeScale = 1;
         System.Random rand = new System.Random();
-
         
         //enemy
         if (choice == 0)
@@ -266,9 +265,9 @@ public class GameManager : MonoBehaviour
             newEnemy.SetActive(true);
             StoreEnemyPositions();
             //does reset positions need to be called?
-            //we need to remove the newly placed enemy from the nuEnemies array. But how to do it?
-            //                                                                    do we actually remove it and resize the array?
-            //                                                                 or do we keep it and prevent the index from being reused?
+
+            //Ensures the same enemy/trap is not selected more than once.
+            //StoreNuPositions();
             Debug.Log("A new enemy has been placed.");
         }
 
@@ -280,6 +279,8 @@ public class GameManager : MonoBehaviour
             newTrap.tag = "Trap";
             newTrap.SetActive(true);
 
+            //Ensures the same enemy/trap is not selected more than once.
+            //StoreNuPositions();
             Debug.Log("A new trap has been placed.");
         }
     }
