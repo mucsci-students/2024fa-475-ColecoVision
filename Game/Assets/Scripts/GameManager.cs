@@ -30,11 +30,10 @@ public class GameManager : MonoBehaviour
     private List<Vector3> originalEnemyPositions = new List<Vector3>();
     private List<Vector3> originalCoinPositions = new List<Vector3>();
 
-    //Positions for New Enemy/Trap Placements
-    private List<Vector3> newEnemyPositions = new List<Vector3>();
-    private List<Vector3> newTrapPositions = new List<Vector3>();
+    //For New Enemy/Trap Placements
+    private GameObject[] nuEnemies;
+    private GameObject[] nuTraps;
 
-    //create lists of predetermined enemy and trap positions for when new ones get placed. remove position when used.
 
     private void Awake()
     {
@@ -233,8 +232,8 @@ public class GameManager : MonoBehaviour
     //Stores all the objects the player has not placed yet. Ensures they are not active at start.
     private void StoreNuPositions()
     {
-        GameObject[] nuEnemies = GameObject.FindGameObjectsWithTag("NuEnemy");
-        GameObject[] nuTraps = GameObject.FindGameObjectsWithTag("NuTrap");
+        nuEnemies = GameObject.FindGameObjectsWithTag("NuEnemy");
+        nuTraps = GameObject.FindGameObjectsWithTag("NuTrap");
 
         for (int enIndex = 0; enIndex < nuEnemies.Length; enIndex++)
         {
@@ -249,32 +248,39 @@ public class GameManager : MonoBehaviour
 
     //for placing new enemies/traps. have ones that are set to false, and switch the one at a specific position to true.
 
-    //two seperate methods??? change type/s ??
     // enemy is when choice = 0
     // trap is when choice = 1
     public void newPlacement(int choice)
     {
-        chooseUI.SetActive(false);
-         player.GetComponent<FirstPersonController>().enabled = true;
+        player.GetComponent<FirstPersonController>().enabled = true;
         Time.timeScale = 1;
+        System.Random rand = new System.Random();
 
-
-        //a new enemy/trap is created in the method that allows the player to select one or the other?
-        //pass that new object in as the parameter?
-        //new object should be the one we want to select?
-
-        //if we want to use a nuEnemy / nuTrap, we will change its tag to "Enemy" or "Trap", and then call StoreEnemyPositions again?
-            //remove from array?
-
-        //how to grab object we want?
         
+        //enemy
         if (choice == 0)
         {
-            
+            int randEnIndex = rand.Next(nuEnemies.Length);
+            GameObject newEnemy = nuEnemies[randEnIndex];
+            newEnemy.tag = "Enemy";
+            newEnemy.SetActive(true);
+            StoreEnemyPositions();
+            //does reset positions need to be called?
+            //we need to remove the newly placed enemy from the nuEnemies array. But how to do it?
+            //                                                                    do we actually remove it and resize the array?
+            //                                                                 or do we keep it and prevent the index from being reused?
+            Debug.Log("A new enemy has been placed.");
         }
+
+        //trap
         if (choice == 1)
         {
+            int randTrIndex = rand.Next(nuTraps.Length);
+            GameObject newTrap = nuTraps[randTrIndex];
+            newTrap.tag = "Trap";
+            newTrap.SetActive(true);
 
+            Debug.Log("A new trap has been placed.");
         }
     }
 
