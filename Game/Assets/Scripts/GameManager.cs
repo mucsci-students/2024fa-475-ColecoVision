@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     public GameObject player;
     public GameObject continueMenuUI;
     public GameObject dialogueUI;
+    public GameObject chooseUI;
     public GameObject bomb;
     public TextMeshProUGUI scoreText; 
     public TextMeshProUGUI tierText; 
@@ -21,6 +22,7 @@ public class GameManager : MonoBehaviour
     public int tier = 0;
     public int score = 0;
     public int count = 0;
+    public bool hasBomb = false;
 
      // Store original positions
     private Vector3 originalPlayerPosition;
@@ -145,6 +147,7 @@ public class GameManager : MonoBehaviour
             }
             if (tier == 3)
             {
+            bomb.SetActive(true);
              dialogue.thirdTierScript();
              bomb.SetActive(true);
             }
@@ -192,6 +195,18 @@ public class GameManager : MonoBehaviour
          
         //  player.GetComponent<FirstPersonController>().enabled = false;
         Advance();
+        //chooseUI.SetActive(true);
+    }
+    // runs when the player chooses an enemy
+    public void enemyOption() {
+        chooseUI.SetActive(false);
+        newPlacement(0);
+    }
+    // runs when the player chooses a trap
+    public void trapOption() {
+        chooseUI.SetActive(false);
+        newPlacement(1);
+
     }
     //stores enemy positions
      private void StoreEnemyPositions()
@@ -235,8 +250,15 @@ public class GameManager : MonoBehaviour
     //for placing new enemies/traps. have ones that are set to false, and switch the one at a specific position to true.
 
     //two seperate methods??? change type/s ??
-    public void newPlacement(GameObject objectToPlace)
+    // enemy is when choice = 0
+    // trap is when choice = 1
+    public void newPlacement(int choice)
     {
+        chooseUI.SetActive(false);
+         player.GetComponent<FirstPersonController>().enabled = true;
+        Time.timeScale = 1;
+
+
         //a new enemy/trap is created in the method that allows the player to select one or the other?
         //pass that new object in as the parameter?
         //new object should be the one we want to select?
@@ -246,11 +268,11 @@ public class GameManager : MonoBehaviour
 
         //how to grab object we want?
         
-        if (objectToPlace.tag.Equals("Enemy"))
+        if (choice == 0)
         {
-            //
+            
         }
-        if (objectToPlace.tag.Equals("Trap"))
+        if (choice == 1)
         {
 
         }
@@ -299,7 +321,7 @@ public class GameManager : MonoBehaviour
             player.SetActive(false); // Deactivate player
         }
     }
-    
+    // adds points to the score 
     public void addScore(int points)
     {
         points = points * (tier + 1);
@@ -312,4 +334,11 @@ public class GameManager : MonoBehaviour
      }
         Debug.Log("Score added");
     }
+    // called when the player collects the bomb
+    public void setBombToTrue() {
+        hasBomb = true;
+        Debug.Log("hasBomb set to true");
+    
+    }
+    
 }

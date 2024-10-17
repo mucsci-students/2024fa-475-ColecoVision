@@ -5,12 +5,8 @@ using UnityEngine;
 
 public class Bomb : MonoBehaviour
 {
- 
-    // Update is called once per frame
-    void Update()
-    {
-        //hi
-    }
+    
+    public GameManager gameManager; 
 
     public static event Action OnCollected;
 
@@ -20,6 +16,7 @@ public class Bomb : MonoBehaviour
         {
             OnCollected?.Invoke();
             Destroy(gameObject);
+            gameManager.setBombToTrue();
         }
     }
    

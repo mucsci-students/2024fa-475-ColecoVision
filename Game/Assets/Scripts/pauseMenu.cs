@@ -12,6 +12,8 @@ public class pauseMenu : MonoBehaviour
     public GameObject dialogue;
     public GameObject continueMenu;
     public GameObject settingsCanvas;
+    public GameObject endTierOptionCanvas;
+    public GameObject endUI;
     public GameObject player;
 
     void Start()
@@ -21,7 +23,7 @@ public class pauseMenu : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape) && !dialogue.activeSelf && !continueMenu.activeSelf)
+        if (Input.GetKeyDown(KeyCode.Escape) && !dialogue.activeSelf && !continueMenu.activeSelf && !endTierOptionCanvas.activeSelf && !endUI.activeSelf)
         {
             if (Paused)
             {
